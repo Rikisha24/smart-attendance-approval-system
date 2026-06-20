@@ -1,0 +1,170 @@
+<!-- ============================================================
+     pages/student/apply-leave.html
+     Leave application form — student details, dates, subjects,
+     permission letter upload
+     JS: leave-form.js (addSubjectRow, submitLeave, simulateUpload)
+     ============================================================ -->
+
+<div class="page" id="page-apply-leave">
+  <div class="breadcrumb">Home › <span>Apply Leave</span></div>
+
+  <div class="info-box blue">
+    <span class="info-box-icon">ℹ️</span>
+    <div>Submit your leave request <strong>before</strong> the event with a permission letter.
+    You'll upload proof after the event to complete verification.</div>
+  </div>
+
+  <!-- ── Section 1: Student Details ── -->
+  <div class="form-section">
+    <div class="form-section-title">👤 Student Details</div>
+
+    <div class="form-row">
+      <div class="form-group-light">
+        <label>Student Full Name *</label>
+        <input type="text" value="Arjun Kumar" placeholder="Full name as per records">
+      </div>
+      <div class="form-group-light">
+        <label>USN (University Seat Number) *</label>
+        <input type="text" value="4NM21CS042" placeholder="e.g. 4NM21CS042">
+      </div>
+    </div>
+
+    <!-- Mentor auto-filled from database (read-only) -->
+    <div class="form-row">
+      <div class="form-group-light">
+        <label>Assigned Mentor (auto-filled)</label>
+        <input type="text" value="Prof. Anitha S" readonly
+          style="background:#F1F5F9; color:var(--text-muted); cursor:not-allowed;">
+      </div>
+      <div class="form-group-light">
+        <label>Mentor Email (auto-filled)</label>
+        <input type="email" value="anitha@college.edu" readonly
+          style="background:#F1F5F9; color:var(--text-muted); cursor:not-allowed;">
+      </div>
+    </div>
+
+    <div class="form-row three">
+      <div class="form-group-light">
+        <label>Branch / Department</label>
+        <input type="text" value="Computer Science & Engineering">
+      </div>
+      <div class="form-group-light">
+        <label>Semester</label>
+        <select>
+          <option>6th Semester</option>
+          <option>5th Semester</option>
+          <option>7th Semester</option>
+        </select>
+      </div>
+      <div class="form-group-light">
+        <label>Section</label>
+        <select>
+          <option>A</option><option>B</option><option>C</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Section 2: Leave Details ── -->
+  <div class="form-section">
+    <div class="form-section-title">📅 Leave Details</div>
+
+    <div class="form-row">
+      <div class="form-group-light">
+        <label>Leave Start Date *</label>
+        <input type="date" id="leaveStart">
+      </div>
+      <div class="form-group-light">
+        <label>Leave End Date *</label>
+        <input type="date" id="leaveEnd">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group-light">
+        <label>Reason / Event Name *</label>
+        <input type="text" placeholder="e.g. National Hackathon 2024, Sports Meet, Medical">
+      </div>
+      <div class="form-group-light">
+        <label>Leave Category</label>
+        <select>
+          <option>Hackathon / Tech Event</option>
+          <option>Sports / Cultural Event</option>
+          <option>Medical Emergency</option>
+          <option>Personal Emergency</option>
+          <option>Inter-college Event</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group-light" style="margin-top:4px;">
+      <label>Additional Details</label>
+      <textarea rows="3"
+        placeholder="Describe the event briefly and why attendance was not possible..."
+        style="width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px;
+               font-size:13.5px; font-family:'Inter',sans-serif; resize:vertical;
+               background:var(--surface2); outline:none;"></textarea>
+    </div>
+  </div>
+
+  <!-- ── Section 3: Subject-wise Absence Details ── -->
+  <div class="form-section">
+    <div class="form-section-title">
+      📚 Subject-wise Absence Details
+      <!-- Add Subject button — calls addSubjectRow() in leave-form.js -->
+      <button class="btn btn-accent btn-sm" style="margin-left:auto;" onclick="addSubjectRow()">
+        + Add Subject
+      </button>
+    </div>
+
+    <div class="info-box yellow" style="margin-bottom:12px;">
+      <span class="info-box-icon">💡</span>
+      <div>List each class missed — one row per subject per day.
+      Faculty will be notified automatically after final approval.</div>
+    </div>
+
+    <!-- Subject rows — more can be added dynamically via addSubjectRow() -->
+    <div id="subjectList">
+      <div class="subject-row" id="subj-1">
+        <span class="subject-row-num">Subject 1</span>
+        <div class="form-row three" style="margin-top:10px;">
+          <div class="form-group-light">
+            <label>Subject Name *</label>
+            <input type="text" placeholder="e.g. Machine Learning">
+          </div>
+          <div class="form-group-light">
+            <label>Faculty Email *</label>
+            <input type="email" placeholder="faculty@college.edu">
+          </div>
+          <div class="form-group-light">
+            <label>Class Date *</label>
+            <input type="date">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:4px; font-size:12px; color:var(--text-muted);">
+      You can add multiple subjects for multi-day leaves.
+    </div>
+  </div>
+
+  <!-- ── Section 4: Permission Letter Upload ── -->
+  <div class="form-section">
+    <div class="form-section-title">📎 Permission Letter Upload</div>
+    <!-- simulateUpload() is in leave-form.js -->
+    <div class="file-upload-zone" onclick="simulateUpload(this)">
+      <div class="upload-icon">📄</div>
+      <p><strong>Click to upload</strong> or drag & drop</p>
+      <p style="margin-top:4px;">PDF, JPG, PNG · Max 5MB</p>
+      <p style="margin-top:8px; font-size:12px; color:var(--text-light);">No file selected</p>
+    </div>
+  </div>
+
+  <!-- ── Form Actions ── -->
+  <div class="text-right">
+    <button class="btn btn-outline" style="margin-right:10px;">Save as Draft</button>
+    <button class="btn btn-primary" onclick="submitLeave()">Submit Request →</button>
+  </div>
+</div>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAttend – College Attendance Portal</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!--
+    ============================================================
+    CSS FILES — load order matters
+    1. variables.css  → design tokens + reset (must be first)
+    2. layout.css     → sidebar, topbar, page shell
+    3. components.css → cards, tables, badges, buttons, forms
+    4. login.css      → login screen only
+    ============================================================
+  -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  
+
+  <!-- ============================================================
+       SCREEN 1: LOGIN
+       Source: pages are self-contained, login styles in login.css
+       JS: auth.js → selectRole(), doLogin()
+       ============================================================ -->
+  <div id="loginScreen" class="screen active">
+    <div class="login-card">
+
+      <div class="login-logo">
+        <div class="login-logo-icon">🎓</div>
+        <div class="login-logo-text">
+          <strong>SmartAttend</strong>
+          <span>College Attendance Portal</span>
+        </div>
+      </div>
+
+      <h2>Welcome back</h2>
+      <p>Sign in to manage attendance requests</p>
+
+      <!-- Role selector — calls selectRole() in auth.js -->
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="selectRole('student', this)">👨‍🎓 Student</button>
+        <button class="role-tab"        onclick="selectRole('mentor',  this)">👨‍🏫 Mentor</button>
+        <button class="role-tab"        onclick="selectRole('hod',     this)">🏛️ HOD</button>
+      </div>
+
+      <div class="form-group">
+        <label>Email / USN</label>
+        <input type="text" id="loginUser" value="" placeholder="e.g. 4NM21CS042">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" value="" placeholder="Enter your password">
+      </div>
+
+      <!-- doLogin() is in auth.js -->
+      <button class="btn-login" onclick="doLogin()">Sign In →</button>
+
+      <div class="login-demo">
+        <p>Demo: Select a role above and click <strong>Sign In</strong></p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SCREEN 2: APP SHELL
+       Contains sidebar + topbar + all role pages
+       ============================================================ -->
+  <div id="appScreen" class="screen">
+
+    <!-- ── Sidebar (components/sidebar.html) ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🎓</div>
+        <div class="sidebar-logo-text">SmartAttend <span>College Portal</span></div>
+      </div>
+      <div class="sidebar-role-badge">
+        <div class="role-avatar student" id="sidebarAvatar">S</div>
+        <div>
+          <span id="sidebarName">Arjun Kumar</span>
+          <small id="sidebarRole">Student · CSE</small>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="doLogout()">⬅ Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <div class="main-content">
+
+      <!-- Topbar (components/topbar.html) -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="topbarTitle">Dashboard</h2>
+          <p id="topbarSub">Academic Year 2024–25 · Semester 6</p>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-notif" onclick="showPage('notifications')">
+            🔔<span class="notif-dot"></span>
+          </div>
+          <div style="font-size:13px; color:var(--text-muted);" id="topbarDate"></div>
+        </div>
+      </header>
+
+      <!-- ==================================================
+           STUDENT PAGES
+           ================================================== -->
+
+      <!-- pages/student/dashboard.html -->
+      <div class="page" id="page-dashboard">
+        <div class="breadcrumb">Home › <span>Dashboard</span></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon blue">📋</div><div><div class="stat-val" id="statTotalRequests">—</div><div class="stat-lbl">Total Requests</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-val" id="statApproved">—</div><div class="stat-lbl">Approved</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">⏳</div><div><div class="stat-val" id="statPending">—</div><div class="stat-lbl">Pending</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple">📤</div><div><div class="stat-val" id="statProofRequired">—</div><div class="stat-lbl">Proof Required</div></div></div>
+          <div class="stat-card"><div class="stat-icon cyan">🎯</div><div><div class="stat-val" id="statClassesProtected">—</div><div class="stat-lbl">Classes Protected</div></div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><h3>Recent Requests</h3><button class="btn btn-primary btn-sm" onclick="showPage('apply-leave')">+ New Request</button></div>
+            <div class="card-body">
+              <table>
+                <thead><tr><th>REQ ID</th><th>DATES</th><th>REASON</th><th>STATUS</th></tr></thead>
+                <tbody id="recentRequestsBody">
+                  <tr><td colspan="4" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Quick Actions</h3></div>
+            <div style="padding:18px;display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-primary" style="justify-content:center;" onclick="showPage('apply-leave')">📝 Apply for Leave</button>
+              <button class="btn btn-outline" style="justify-content:center;" onclick="showPage('upload-proof')">📎 Upload Event Proof</button>
+              <button class="btn btn-outline" style="justify-content:center;" onclick="showPage('track-status')">🔍 Track Request Status</button>
+              <button class="btn btn-outline" style="justify-content:center;" onclick="showPage('notifications')">🔔 View Notifications</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- pages/student/apply-leave.html -->
+      <div class="page" id="page-apply-leave">
+        <div class="breadcrumb">Home › <span>Apply Leave</span></div>
+        <div class="info-box blue"><span class="info-box-icon">ℹ️</span><div>Submit your leave request <strong>before</strong> the event with a permission letter. You'll upload proof after the event to complete verification.</div></div>
+        <div class="form-section">
+          <div class="form-section-title">👤 Student Details</div>
+          <div class="form-row">
+            <div class="form-group-light"><label>Student Full Name *</label><input type="text" id="applyStudentName" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+            <div class="form-group-light"><label>USN *</label><input type="text" id="applyStudentUSN" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group-light"><label>Assigned Mentor (auto-filled)</label><input type="text" id="applyMentorName" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+            <div class="form-group-light"><label>Mentor Email (auto-filled)</label><input type="email" id="applyMentorEmail" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+          </div>
+          <div class="form-row three">
+            <div class="form-group-light"><label>Branch</label><input type="text" id="applyDept" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+            <div class="form-group-light"><label>Semester</label><input type="text" id="applySemester" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+            <div class="form-group-light"><label>Section</label><input type="text" id="applySection" value="" readonly style="background:#F1F5F9;color:var(--text-muted);cursor:not-allowed;"></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📅 Leave Details</div>
+          <div class="form-row">
+            <div class="form-group-light"><label>Leave Start Date *</label><input type="date" id="leaveStart"></div>
+            <div class="form-group-light"><label>Leave End Date *</label><input type="date" id="leaveEnd"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group-light"><label>Reason / Event Name *</label><input type="text" id="leaveReason" placeholder="e.g. National Hackathon 2024"></div>
+            <div class="form-group-light"><label>Leave Category</label><select id="leaveCategory"><option value="hackathon">Hackathon / Tech Event</option><option value="sports_cultural">Sports / Cultural Event</option><option value="medical">Medical Emergency</option><option value="personal">Personal Emergency</option><option value="intercollege">Inter-college Event</option><option value="other">Other</option></select></div>
+          </div>
+          <div class="form-group-light"><label>Additional Details</label><textarea rows="3" id="leaveDescription" placeholder="Describe briefly..." style="width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Inter',sans-serif;resize:vertical;background:var(--surface2);outline:none;"></textarea></div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📚 Subject-wise Absence Details<button class="btn btn-accent btn-sm" style="margin-left:auto;" onclick="addSubjectRow()">+ Add Subject</button></div>
+          <div class="info-box yellow" style="margin-bottom:12px;"><span class="info-box-icon">💡</span><div>List each class missed — one row per subject per day. Faculty will be notified automatically.</div></div>
+          <div id="subjectList">
+            <div class="subject-row" id="subj-1">
+              <span class="subject-row-num">Subject 1</span>
+              <div class="form-row three" style="margin-top:10px;">
+                <div class="form-group-light"><label>Subject Name *</label><input type="text" class="subj-name" placeholder="e.g. Machine Learning"></div>
+                <div class="form-group-light"><label>Faculty Email *</label><input type="email" class="subj-email" placeholder="faculty@college.edu"></div>
+                <div class="form-group-light"><label>Class Date *</label><input type="date" class="subj-date"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📎 Permission Letter Upload</div>
+          <div class="file-upload-zone" onclick="simulateUpload(this,'perm')">
+            <div class="upload-icon">📄</div>
+            <p><strong>Click to upload</strong> or drag & drop</p>
+            <p style="margin-top:4px;">PDF, JPG, PNG · Max 5MB</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-outline" style="margin-right:10px;">Save as Draft</button>
+          <button class="btn btn-primary" onclick="submitLeave()">Submit Request →</button>
+        </div>
+      </div>
+
+      <!-- pages/student/upload-proof.html -->
+      <div class="page" id="page-upload-proof">
+        <div class="breadcrumb">Home › <span>Upload Proof</span></div>
+        <div class="info-box green"><span class="info-box-icon">✅</span><div>Your leave was provisionally approved. Upload event proof within <strong>3 days</strong> of return.</div></div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header"><h3>Select Approved Request</h3></div>
+          <div style="padding:18px;">
+            <div class="form-group-light">
+              <label>Choose a request awaiting proof upload</label>
+              <select id="uploadReqId" style="width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Inter',sans-serif;outline:none;">
+                <option value="">Loading…</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📸 Upload Event Proof</div>
+          <div class="two-col">
+            <div>
+              <div class="form-group-light" style="margin-bottom:14px;"><label>Proof Type</label><select id="proofType"><option value="certificate">Participation Certificate</option><option value="id_card">Event ID Card</option><option value="medical_certificate">Medical Certificate</option><option value="doctor_letter">Doctor's Letter</option></select></div>
+              <div class="form-group-light" style="margin-bottom:14px;"><label>Description</label><textarea rows="3" id="proofDescription" placeholder="Brief note..." style="width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Inter',sans-serif;resize:none;background:var(--surface2);outline:none;"></textarea></div>
+              <div class="file-upload-zone" onclick="simulateUpload(this,'proof')"><div class="upload-icon">📸</div><p><strong>Upload proof document</strong></p><p style="margin-top:4px;">PDF, JPG, PNG · Max 10MB</p></div>
+            </div>
+            <div style="background:linear-gradient(135deg,rgba(139,92,246,0.05),rgba(6,182,212,0.05));border:1px solid rgba(139,92,246,0.2);border-radius:var(--radius);padding:20px;">
+              <h4 style="font-size:14px;margin-bottom:14px;">Tips</h4>
+              <p style="font-size:13px;color:var(--text-muted);">Select your approved request above, choose the proof type, add an optional description, then upload your document (PDF/JPG/PNG, max 10MB). Your mentor and HOD will be notified to verify it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="text-right mt-16"><button class="btn btn-primary" onclick="uploadProof()">Submit Proof →</button></div>
+      </div>
+
+      <!-- pages/student/track-status.html -->
+      <div class="page" id="page-track-status">
+        <div class="breadcrumb">Home › <span>Track Status</span></div>
+        <div class="two-col" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header"><h3>Select Request</h3></div>
+            <div style="padding:14px 18px;"><div style="display:flex;flex-direction:column;gap:8px;">
+              <div onclick="selectTrack(this,'#SA-2024')" class="track-req-item" style="padding:12px 14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;">
+                <strong>Loading requests…</strong>
+              </div>
+            </div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Workflow — <span id="trackReqId">#SA-2024</span></h3></div>
+            <div style="padding:20px;">
+              <div class="workflow-steps" id="workflowViz"></div>
+              <div class="timeline mt-16" id="trackTimeline"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>All Requests — Overview</h3></div>
+          <div class="card-body">
+            <table><thead><tr><th>REQ ID</th><th>DATES</th><th>REASON</th><th>SUBJECTS</th><th>MENTOR</th><th>HOD</th><th>PROOF</th><th>ATTENDANCE</th></tr></thead>
+            <tbody id="overviewBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================
+           MENTOR PAGE
+           pages/mentor/mentor-dashboard.html
+           ================================================== -->
+      <div class="page" id="page-mentor-dashboard">
+        <div class="breadcrumb">Mentor Portal › <span>Dashboard</span></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon yellow">⏳</div><div><div class="stat-val" id="mentorStatPending">—</div><div class="stat-lbl">Pending Reviews</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-val" id="mentorStatApproved">—</div><div class="stat-lbl">Approved (Total)</div></div></div>
+          <div class="stat-card"><div class="stat-icon red">❌</div><div><div class="stat-val" id="mentorStatRejected">—</div><div class="stat-lbl">Rejected</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple">📸</div><div><div class="stat-val" id="mentorStatProofs">—</div><div class="stat-lbl">Proofs to Verify</div></div></div>
+        </div>
+        <div class="card" style="margin-bottom:22px;">
+          <div class="card-header"><h3>⏳ Pending Leave Requests</h3><span class="badge pending" style="font-size:13px;padding:5px 12px;" id="mentorPendingCount">Pending</span></div>
+          <div class="card-body"><table>
+            <thead><tr><th>REQ ID</th><th>STUDENT</th><th>USN</th><th>DATES</th><th>REASON</th><th>SUBJECTS</th><th>PERMISSION</th><th>ACTION</th></tr></thead>
+            <tbody id="mentorPendingBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📸 Proof Verification</h3><span class="badge uploaded" style="font-size:13px;padding:5px 12px;" id="mentorProofCount">To Verify</span></div>
+          <div class="card-body"><table>
+            <thead><tr><th>REQ ID</th><th>STUDENT</th><th>PROOF TYPE</th><th>REASON</th><th>UPLOADED</th><th>DOCUMENT</th><th>ACTION</th></tr></thead>
+            <tbody id="mentorProofBody">
+              <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ==================================================
+           HOD PAGE
+           pages/hod/hod-dashboard.html
+           ================================================== -->
+      <div class="page" id="page-hod-dashboard">
+        <div class="breadcrumb">HOD Portal › <span>Dashboard</span></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon yellow">⏳</div><div><div class="stat-val" id="hodStatAwaiting">—</div><div class="stat-lbl">Awaiting HOD Review</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-val" id="hodStatApproved">—</div><div class="stat-lbl">Approved (Total)</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple">📸</div><div><div class="stat-val" id="hodStatProofs">—</div><div class="stat-lbl">Proofs to Verify</div></div></div>
+          <div class="stat-card"><div class="stat-icon cyan">📊</div><div><div class="stat-val" id="hodStatRate">—</div><div class="stat-lbl">Approval Rate</div></div></div>
+        </div>
+        <div class="card" style="margin-bottom:22px;">
+          <div class="card-header"><h3>⏳ Mentor-Approved — Awaiting HOD Decision</h3><span class="badge hod-pending" style="font-size:13px;padding:5px 12px;" id="hodPendingCount">Pending</span></div>
+          <div class="card-body"><table>
+            <thead><tr><th>REQ ID</th><th>STUDENT</th><th>USN</th><th>DATES</th><th>REASON</th><th>MENTOR STATUS</th><th>PERMISSION</th><th>ACTION</th></tr></thead>
+            <tbody id="hodPendingBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📸 Final Proof Verification (HOD)</h3><span class="badge uploaded" style="font-size:13px;padding:5px 12px;" id="hodProofCount">To Verify</span></div>
+          <div class="card-body"><table>
+            <thead><tr><th>REQ ID</th><th>STUDENT</th><th>PROOF TYPE</th><th>REASON</th><th>UPLOADED</th><th>DOCUMENT</th><th>ACTION</th></tr></thead>
+            <tbody id="hodProofBody">
+              <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Loading…</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ==================================================
+           NOTIFICATIONS PAGE (shared by all roles)
+           pages/notifications.html
+           ================================================== -->
+      <div class="page" id="page-notifications">
+        <div class="breadcrumb">Home › <span>Notifications</span></div>
+        <div class="card">
+          <div class="card-header"><h3>🔔 All Notifications</h3><button class="btn btn-outline btn-sm" onclick="markAllNotificationsRead()">Mark all read</button></div>
+          <div id="notificationsList">
+            <p style="color:var(--text-muted);text-align:center;padding:20px;">Loading…</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .main-content -->
+
+    <!-- ── Shared Modals (components/modals.html) ── -->
+    <div class="modal-overlay" id="docModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('docModal')">✕</button>
+        <h3>📄 Permission Letter</h3>
+        <div id="docPreview" style="background:var(--bg);border-radius:10px;padding:32px;text-align:center;border:1px solid var(--border);">
+          <div style="font-size:48px;margin-bottom:12px;">📄</div>
+          <div>Click "View" on a request to preview its document here.</div>
+        </div>
+        <div class="modal-actions" style="margin-top:16px;"><button class="btn btn-outline" onclick="closeModal('docModal')">Close</button></div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="proofModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('proofModal')">✕</button>
+        <h3>🖼 Event Proof Document</h3>
+        <div id="proofPreview" style="background:var(--bg);border-radius:10px;padding:32px;text-align:center;border:1px solid var(--border);">
+          <div style="font-size:48px;margin-bottom:12px;">🖼</div>
+          <div>Click "View Proof" on a request to preview it here.</div>
+        </div>
+        <div class="modal-actions" style="margin-top:16px;"><button class="btn btn-outline" onclick="closeModal('proofModal')">Close</button></div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="rejectModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('rejectModal')">✕</button>
+        <h3>✗ Reject Request</h3><p>Provide a reason so the student can take corrective action.</p>
+        <div class="form-group-light" style="margin-bottom:16px;"><label>Rejection Reason *</label>
+          <select id="rejectReason" style="width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Inter',sans-serif;outline:none;">
+            <option>Permission letter unclear or incomplete</option>
+            <option>Event details not matching</option>
+            <option>Already marked present in records</option>
+            <option>Insufficient documentation</option>
+            <option>Request submitted after event</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group-light"><label>Additional Comments</label>
+          <textarea rows="3" placeholder="Optional guidance for the student..." style="width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Inter',sans-serif;resize:none;outline:none;"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="closeModal('rejectModal')">Cancel</button>
+          <button class="btn btn-danger"  onclick="confirmReject()">Confirm Rejection</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast (components/toast.html) -->
+    <div class="toast" id="toast">
+      <span class="toast-icon" id="toastIcon">✅</span>
+      <span id="toastMsg">Action completed</span>
+    </div>
+
+  </div><!-- end #appScreen -->
+
+
+  <!--
+    ============================================================
+    JAVASCRIPT FILES — load order matters
+    1. auth.js         → login/logout/nav (needs roleConfigs first)
+    2. navigation.js   → showPage() used by all other JS
+    3. leave-form.js   → subject rows, file upload, submit
+    4. track-status.js → timeline rendering, trackData
+    5. approvals.js    → approve/reject/verify (needs rejectTarget)
+    6. modals-toast.js → modal open/close, showToast
+    ============================================================
+  -->
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/leave-form.js"></script>
+  <script src="js/track-status.js"></script>
+  <script src="js/approvals.js"></script>
+  <script src="js/modals-toast.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!-- ============================================================
+     components/modals.html
+     Three modal dialogs used across the app:
+       1. docModal    — view permission letter
+       2. proofModal  — view uploaded proof
+       3. rejectModal — confirm rejection with reason
+     JS: modals-toast.js (open/close), approvals.js (confirmReject)
+     ============================================================ -->
+
+
+<!-- ① PERMISSION LETTER VIEWER -->
+<div class="modal-overlay" id="docModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('docModal')">✕</button>
+    <h3>📄 Permission Letter</h3>
+    <p>Request #SA-2027 — Priya Sharma</p>
+
+    <div style="background:var(--bg); border-radius:10px; padding:32px; text-align:center; border:1px solid var(--border);">
+      <div style="font-size:48px; margin-bottom:12px;">📄</div>
+      <div style="font-weight:600;">permission_letter_priya.pdf</div>
+      <div style="font-size:13px; color:var(--text-muted); margin-top:4px;">Uploaded Dec 6, 2024 · 340 KB</div>
+      <button class="btn btn-primary" style="margin-top:16px;">⬇ Download to View</button>
+    </div>
+
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-outline" onclick="closeModal('docModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ② PROOF DOCUMENT VIEWER -->
+<div class="modal-overlay" id="proofModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proofModal')">✕</button>
+    <h3>🖼 Event Proof Document</h3>
+    <p>Participation Certificate — National Hackathon 2024</p>
+
+    <div style="background:linear-gradient(135deg,#1a2d52,#2563eb); border-radius:10px; padding:36px; text-align:center;">
+      <div style="font-size:40px; margin-bottom:10px;">🏆</div>
+      <div style="color:#fff; font-weight:700; font-size:16px;">Certificate of Participation</div>
+      <div style="color:rgba(255,255,255,0.7); font-size:13px; margin-top:6px;">
+        National Hackathon 2024 · Dec 10–12 · NITK Surathkal
+      </div>
+      <div style="color:rgba(255,255,255,0.5); font-size:12px; margin-top:4px;">
+        Arjun Kumar — 4NM21CS042
+      </div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-outline" onclick="closeModal('proofModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ③ REJECT REQUEST MODAL -->
+<div class="modal-overlay" id="rejectModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('rejectModal')">✕</button>
+    <h3>✗ Reject Request</h3>
+    <p>Provide a reason so the student can take corrective action.</p>
+
+    <div class="form-group-light" style="margin-bottom:16px;">
+      <label>Rejection Reason *</label>
+      <select style="width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px; font-size:13.5px; font-family:'Inter',sans-serif; outline:none;">
+        <option>Permission letter unclear or incomplete</option>
+        <option>Event details not matching</option>
+        <option>Already marked present in records</option>
+        <option>Insufficient documentation</option>
+        <option>Request submitted after event</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group-light">
+      <label>Additional Comments</label>
+      <textarea rows="3"
+        placeholder="Optional: specific guidance for the student..."
+        style="width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px; font-size:13.5px; font-family:'Inter',sans-serif; resize:none; outline:none;"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('rejectModal')">Cancel</button>
+      <button class="btn btn-danger"  onclick="confirmReject()">Confirm Rejection</button>
+    </div>
+  </div>
+</div>

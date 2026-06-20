@@ -1,0 +1,131 @@
+<!-- ============================================================
+     pages/hod/hod-dashboard.html
+     HOD sees mentor-approved requests + final proof verification
+     JS: approvals.js (approveReq, rejectReq, verifyProof)
+         modals-toast.js (viewDoc, viewProof)
+     ============================================================ -->
+
+<div class="page" id="page-hod-dashboard">
+  <div class="breadcrumb">HOD Portal › <span>Dashboard</span></div>
+
+  <!-- ── Stat Cards ── -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon yellow">⏳</div>
+      <div><div class="stat-val">4</div><div class="stat-lbl">Awaiting HOD Review</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">✅</div>
+      <div><div class="stat-val">28</div><div class="stat-lbl">Approved This Month</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">📸</div>
+      <div><div class="stat-val">2</div><div class="stat-lbl">Proofs to Verify</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon cyan">📊</div>
+      <div><div class="stat-val">94%</div><div class="stat-lbl">Approval Rate</div></div>
+    </div>
+  </div>
+
+  <!-- ── Mentor-Approved Requests Awaiting HOD ── -->
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-header">
+      <h3>⏳ Mentor-Approved Requests — Awaiting HOD Decision</h3>
+      <span class="badge hod-pending" style="font-size:13px; padding:5px 12px;">4 Pending</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <thead>
+          <tr>
+            <th>REQ ID</th><th>STUDENT</th><th>USN</th>
+            <th>DATES</th><th>REASON</th><th>MENTOR STATUS</th>
+            <th>PERMISSION</th><th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>#SA-2025</strong></td>
+            <td>Arjun Kumar</td><td>4NM21CS042</td>
+            <td>Dec 18–19</td><td>Sports Meet</td>
+            <td><span class="badge approved">Approved</span></td>
+            <!-- viewDoc() in modals-toast.js -->
+            <td><button class="btn btn-outline btn-sm" onclick="viewDoc()">📄 View</button></td>
+            <td class="flex-gap">
+              <!-- approveReq() in approvals.js -->
+              <button class="btn btn-success btn-sm" onclick="approveReq(this,'hod')">✓ Approve</button>
+              <!-- rejectReq() in approvals.js -->
+              <button class="btn btn-danger btn-sm"  onclick="rejectReq(this)">✗ Reject</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2027</strong></td>
+            <td>Priya Sharma</td><td>4NM21CS089</td>
+            <td>Jan 8–9</td><td>Cultural Fest</td>
+            <td><span class="badge approved">Approved</span></td>
+            <td><button class="btn btn-outline btn-sm" onclick="viewDoc()">📄 View</button></td>
+            <td class="flex-gap">
+              <button class="btn btn-success btn-sm" onclick="approveReq(this,'hod')">✓ Approve</button>
+              <button class="btn btn-danger btn-sm"  onclick="rejectReq(this)">✗ Reject</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2029</strong></td>
+            <td>Sneha R</td><td>4NM21CS112</td>
+            <td>Jan 12–14</td><td>Hackathon</td>
+            <td><span class="badge approved">Approved</span></td>
+            <td><button class="btn btn-outline btn-sm" onclick="viewDoc()">📄 View</button></td>
+            <td class="flex-gap">
+              <button class="btn btn-success btn-sm" onclick="approveReq(this,'hod')">✓ Approve</button>
+              <button class="btn btn-danger btn-sm"  onclick="rejectReq(this)">✗ Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Final Proof Verification ── -->
+  <div class="card">
+    <div class="card-header">
+      <h3>📸 Final Proof Verification (HOD)</h3>
+      <span class="badge uploaded" style="font-size:13px; padding:5px 12px;">2 To Verify</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <thead>
+          <tr>
+            <th>REQ ID</th><th>STUDENT</th><th>EVENT</th>
+            <th>MENTOR VERIFIED</th><th>PROOF</th><th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>#SA-2024</strong></td>
+            <td>Arjun Kumar (4NM21CS042)</td>
+            <td>Hackathon Dec 10–12</td>
+            <td><span class="badge verified">Verified</span></td>
+            <!-- viewProof() in modals-toast.js -->
+            <td><button class="btn btn-outline btn-sm" onclick="viewProof()">🖼 View Proof</button></td>
+            <td class="flex-gap">
+              <!-- verifyProof() in approvals.js — triggers attendance update -->
+              <button class="btn btn-success btn-sm" onclick="verifyProof(this,'hod')">✓ Verify & Update</button>
+              <button class="btn btn-danger btn-sm"  onclick="rejectReq(this)">✗ Reject</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2023</strong></td>
+            <td>Kiran M (4NM21CS078)</td>
+            <td>Sports Meet Dec 18–20</td>
+            <td><span class="badge verified">Verified</span></td>
+            <td><button class="btn btn-outline btn-sm" onclick="viewProof()">🖼 View Proof</button></td>
+            <td class="flex-gap">
+              <button class="btn btn-success btn-sm" onclick="verifyProof(this,'hod')">✓ Verify & Update</button>
+              <button class="btn btn-danger btn-sm"  onclick="rejectReq(this)">✗ Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

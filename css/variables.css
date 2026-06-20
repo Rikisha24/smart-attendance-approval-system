@@ -1,0 +1,54 @@
+/* ============================================================
+   variables.css
+   Global CSS custom properties (design tokens) + reset
+   Used by: ALL pages via index.html <link>
+   ============================================================ */
+
+:root {
+  /* --- Color Palette --- */
+  --navy:        #0F1B35;
+  --navy-mid:    #1A2D52;
+  --blue:        #2563EB;
+  --blue-light:  #3B82F6;
+  --accent:      #06B6D4;
+  --accent2:     #8B5CF6;
+  --success:     #10B981;
+  --warning:     #F59E0B;
+  --danger:      #EF4444;
+
+  /* --- Surface Colors --- */
+  --bg:          #F0F4FA;
+  --surface:     #FFFFFF;
+  --surface2:    #F8FAFD;
+  --border:      #E2E8F4;
+
+  /* --- Text Colors --- */
+  --text:        #0F1B35;
+  --text-muted:  #64748B;
+  --text-light:  #94A3B8;
+
+  /* --- Layout --- */
+  --sidebar-w:   240px;
+
+  /* --- Shape --- */
+  --radius:      12px;
+  --radius-sm:   8px;
+
+  /* --- Shadows --- */
+  --shadow:      0 1px 3px rgba(15,27,53,0.08), 0 4px 16px rgba(15,27,53,0.06);
+  --shadow-lg:   0 8px 32px rgba(15,27,53,0.12);
+}
+
+/* --- Reset --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+}

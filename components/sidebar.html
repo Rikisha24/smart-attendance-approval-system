@@ -1,0 +1,38 @@
+<!-- ============================================================
+     components/sidebar.html
+     The left sidebar: logo, user badge, nav links, sign-out
+     Included inside index.html's #appScreen div
+     JS that drives it: auth.js (renderNav), navigation.js (showPage)
+     ============================================================ -->
+
+<aside class="sidebar" id="sidebar">
+
+  <!-- Logo -->
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-icon">🎓</div>
+    <div class="sidebar-logo-text">
+      SmartAttend
+      <span>College Portal</span>
+    </div>
+  </div>
+
+  <!-- Logged-in user badge (populated by auth.js → doLogin) -->
+  <div class="sidebar-role-badge">
+    <div class="role-avatar student" id="sidebarAvatar">S</div>
+    <div>
+      <span id="sidebarName">Arjun Kumar</span>
+      <small id="sidebarRole">Student · CSE</small>
+    </div>
+  </div>
+
+  <!-- Navigation links (rendered dynamically by auth.js → renderNav) -->
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- Items injected here by renderNav() -->
+  </nav>
+
+  <!-- Sign out -->
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()">⬅ Sign Out</button>
+  </div>
+
+</aside>

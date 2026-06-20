@@ -1,0 +1,113 @@
+<!-- ============================================================
+     pages/student/dashboard.html
+     Student's home page — attendance meter, stats, recent requests
+     Shown when: student logs in (first page)
+     ============================================================ -->
+
+<div class="page" id="page-dashboard">
+  <div class="breadcrumb">Home › <span>Dashboard</span></div>
+
+  <!-- ── Attendance Meter ── -->
+  <div class="attendance-card">
+    <div>
+      <h3>Current Attendance</h3>
+      <div class="att-big">82<span>%</span></div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:4px;">
+        As of today · 156/190 classes
+      </div>
+    </div>
+
+    <div class="att-bar-wrap">
+      <div class="att-bar-labels">
+        <span>0%</span><span>75% Min</span><span>85% Safe</span><span>100%</span>
+      </div>
+      <div class="att-bar">
+        <div class="att-bar-fill"></div>
+      </div>
+      <div class="att-zone-labels">
+        <span class="att-zone safe"    style="color:rgba(255,255,255,0.6)">Safe zone ≥ 85%</span>
+        <span class="att-zone caution" style="color:rgba(255,255,255,0.6)">Caution 75–85%</span>
+        <span class="att-zone danger"  style="color:rgba(255,255,255,0.6)">Shortage &lt; 75%</span>
+      </div>
+    </div>
+
+    <div>
+      <div style="background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4);
+                  border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-bottom:2px;">STATUS</div>
+        <div style="color:#FCD34D; font-weight:700; font-size:14px;">⚠ Caution Zone</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:3px;">6 more classes needed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Stat Cards ── -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue">📋</div>
+      <div><div class="stat-val">3</div><div class="stat-lbl">Total Requests</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">✅</div>
+      <div><div class="stat-val">1</div><div class="stat-lbl">Approved</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon yellow">⏳</div>
+      <div><div class="stat-val">1</div><div class="stat-lbl">Pending</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">📤</div>
+      <div><div class="stat-val">1</div><div class="stat-lbl">Proof Required</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon cyan">🎯</div>
+      <div><div class="stat-val">4</div><div class="stat-lbl">Classes Protected</div></div>
+    </div>
+  </div>
+
+  <!-- ── Recent Requests + Quick Actions ── -->
+  <div class="two-col">
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Recent Requests</h3>
+        <button class="btn btn-primary btn-sm" onclick="showPage('apply-leave')">+ New Request</button>
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr><th>REQ ID</th><th>DATES</th><th>REASON</th><th>STATUS</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#SA-2024</strong></td>
+              <td>Dec 10–12</td><td>Hackathon</td>
+              <td><span class="badge approved">HOD Approved</span></td>
+            </tr>
+            <tr>
+              <td><strong>#SA-2025</strong></td>
+              <td>Dec 18–19</td><td>Sports Meet</td>
+              <td><span class="badge hod-pending">Mentor Approved</span></td>
+            </tr>
+            <tr>
+              <td><strong>#SA-2026</strong></td>
+              <td>Jan 5</td><td>Medical</td>
+              <td><span class="badge uploaded">Proof Uploaded</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Quick Actions</h3></div>
+      <div style="padding:18px; display:flex; flex-direction:column; gap:10px;">
+        <button class="btn btn-primary"  style="justify-content:center;" onclick="showPage('apply-leave')">📝 Apply for Leave</button>
+        <button class="btn btn-outline"  style="justify-content:center;" onclick="showPage('upload-proof')">📎 Upload Event Proof</button>
+        <button class="btn btn-outline"  style="justify-content:center;" onclick="showPage('track-status')">🔍 Track Request Status</button>
+        <button class="btn btn-outline"  style="justify-content:center;" onclick="showPage('notifications')">🔔 View Notifications</button>
+      </div>
+    </div>
+
+  </div>
+</div>

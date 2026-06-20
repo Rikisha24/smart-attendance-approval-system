@@ -1,0 +1,194 @@
+/* ============================================================
+   layout.css
+   App shell: sidebar, topbar, main content area
+   Used by: all pages EXCEPT login.html
+   ============================================================ */
+
+/* --- Screen toggle --- */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; }
+
+#appScreen { flex-direction: row; }
+
+/* =====================
+   SIDEBAR
+   ===================== */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 100;
+  transition: transform .3s;
+}
+
+.sidebar-logo {
+  padding: 22px 20px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.sidebar-logo-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--blue), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+.sidebar-logo-text {
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sidebar-logo-text span {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Role badge below logo */
+.sidebar-role-badge {
+  margin: 14px 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.role-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.role-avatar.student { background: linear-gradient(135deg, var(--blue), var(--accent)); }
+.role-avatar.mentor  { background: linear-gradient(135deg, var(--success), #059669); }
+.role-avatar.hod     { background: linear-gradient(135deg, var(--accent2), #7C3AED); }
+
+.sidebar-role-badge span { color: #fff; font-size: 12px; font-weight: 500; }
+.sidebar-role-badge small { display: block; color: rgba(255,255,255,0.4); font-size: 11px; }
+
+/* Navigation links */
+.sidebar-nav { padding: 8px 0; flex: 1; overflow-y: auto; }
+
+.nav-section-label {
+  padding: 10px 20px 4px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  color: rgba(255,255,255,0.5);
+  font-size: 13.5px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+  border-radius: 0 8px 8px 0;
+  margin: 1px 8px 1px 0;
+}
+
+.nav-item:hover  { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: rgba(37,99,235,0.2); border-left-color: var(--blue); color: #fff; }
+
+.nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-item .badge {
+  margin-left: auto;
+  background: var(--danger); color: #fff;
+  font-size: 10px; padding: 2px 6px;
+  border-radius: 10px; font-weight: 600;
+}
+
+/* Sign out button */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.btn-logout {
+  width: 100%; padding: 9px;
+  background: rgba(239,68,68,0.1);
+  color: #ef8888;
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px; font-size: 13px;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: all .2s;
+}
+.btn-logout:hover { background: rgba(239,68,68,0.2); }
+
+/* =====================
+   TOPBAR
+   ===================== */
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+}
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+
+.topbar-left h2 { font-size: 17px; font-weight: 600; }
+.topbar-left p  { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+.topbar-notif {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative; font-size: 16px;
+}
+
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* =====================
+   PAGE CONTAINER
+   ===================== */
+.page { padding: 28px; display: none; }
+.page.active { display: block; }
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb span { color: var(--text); font-weight: 500; }

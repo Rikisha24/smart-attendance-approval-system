@@ -1,0 +1,110 @@
+<!-- ============================================================
+     pages/student/upload-proof.html
+     Student uploads event proof after provisional approval
+     JS: leave-form.js (simulateUpload, uploadProof)
+         modals-toast.js (showToast)
+     ============================================================ -->
+
+<div class="page" id="page-upload-proof">
+  <div class="breadcrumb">Home › <span>Upload Proof</span></div>
+
+  <div class="info-box green">
+    <span class="info-box-icon">✅</span>
+    <div>Your leave was provisionally approved. Upload event proof within
+    <strong>3 days</strong> of your return to complete the attendance update process.</div>
+  </div>
+
+  <!-- ── Select Approved Request ── -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header"><h3>Select Approved Request</h3></div>
+    <div style="padding:18px;">
+      <table>
+        <thead>
+          <tr><th>REQ ID</th><th>DATES</th><th>REASON</th><th>STATUS</th><th>ACTION</th></tr>
+        </thead>
+        <tbody>
+          <tr style="background:rgba(37,99,235,0.04);">
+            <td><strong>#SA-2024</strong></td>
+            <td>Dec 10–12</td>
+            <td>Hackathon</td>
+            <td><span class="badge approved">HOD Approved</span></td>
+            <td><button class="btn btn-primary btn-sm">Upload Proof</button></td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2025</strong></td>
+            <td>Dec 18–19</td>
+            <td>Sports Meet</td>
+            <td><span class="badge hod-pending">Awaiting HOD</span></td>
+            <td><button class="btn btn-outline btn-sm" disabled>Not ready</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Upload Form ── -->
+  <div class="form-section">
+    <div class="form-section-title">📸 Upload Event Proof — Request #SA-2024</div>
+
+    <div class="two-col">
+
+      <!-- Left: upload controls -->
+      <div>
+        <div class="form-group-light" style="margin-bottom:14px;">
+          <label>Proof Type</label>
+          <select>
+            <option>Participation Certificate</option>
+            <option>Event ID Card / Pass</option>
+            <option>Medical Certificate / Prescription</option>
+            <option>Doctor's Letter</option>
+            <option>Photos / Screenshots</option>
+          </select>
+        </div>
+
+        <div class="form-group-light" style="margin-bottom:14px;">
+          <label>Description</label>
+          <textarea rows="3"
+            placeholder="Brief note about the proof document..."
+            style="width:100%; padding:10px 13px; border:1px solid var(--border);
+                   border-radius:8px; font-size:13.5px; font-family:'Inter',sans-serif;
+                   resize:none; background:var(--surface2); outline:none;"></textarea>
+        </div>
+
+        <!-- simulateUpload() in leave-form.js -->
+        <div class="file-upload-zone" onclick="simulateUpload(this,'proof')">
+          <div class="upload-icon">📸</div>
+          <p><strong>Upload proof document</strong></p>
+          <p style="margin-top:4px;">PDF, JPG, PNG · Max 10MB</p>
+        </div>
+      </div>
+
+      <!-- Right: request summary -->
+      <div style="background:linear-gradient(135deg,rgba(139,92,246,0.05),rgba(6,182,212,0.05));
+                  border:1px solid rgba(139,92,246,0.2); border-radius:var(--radius); padding:20px;">
+        <h4 style="font-size:14px; margin-bottom:14px;">Request Summary</h4>
+        <table style="font-size:13px;">
+          <tr><td style="color:var(--text-muted); padding:5px 0;">Request ID</td> <td><strong>#SA-2024</strong></td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">Student</td>    <td>Arjun Kumar</td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">USN</td>        <td>4NM21CS042</td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">Event</td>      <td>National Hackathon 2024</td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">Dates</td>      <td>Dec 10–12, 2024</td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">Classes</td>    <td>4 classes</td></tr>
+          <tr><td style="color:var(--text-muted); padding:5px 0;">HOD Approval</td>
+            <td><span class="badge approved">Approved</span></td></tr>
+        </table>
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(139,92,246,0.2);">
+          <div style="font-size:12px; color:var(--text-muted);">⏰ Deadline to upload proof</div>
+          <div style="font-weight:600; font-size:14px; color:var(--danger); margin-top:3px;">
+            Dec 15, 2024 (2 days left)
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-right mt-16">
+      <!-- uploadProof() in leave-form.js -->
+      <button class="btn btn-primary" onclick="uploadProof()">Submit Proof →</button>
+    </div>
+  </div>
+</div>

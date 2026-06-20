@@ -1,0 +1,25 @@
+<!-- ============================================================
+     components/topbar.html
+     Sticky top bar: page title, date, notification bell
+     Included inside .main-content in index.html
+     JS: navigation.js updates #topbarTitle on page change
+     ============================================================ -->
+
+<header class="topbar">
+
+  <!-- Left: current page title + subtitle -->
+  <div class="topbar-left">
+    <h2 id="topbarTitle">Dashboard</h2>
+    <p id="topbarSub">Academic Year 2024–25 · Semester 6</p>
+  </div>
+
+  <!-- Right: notification bell + today's date -->
+  <div class="topbar-right">
+    <div class="topbar-notif" onclick="showPage('notifications')">
+      🔔
+      <span class="notif-dot"></span>
+    </div>
+    <div style="font-size:13px; color:var(--text-muted);" id="topbarDate"></div>
+  </div>
+
+</header>

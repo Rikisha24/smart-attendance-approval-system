@@ -1,0 +1,103 @@
+<!-- ============================================================
+     pages/student/track-status.html
+     Student views full workflow timeline for each request
+     JS: track-status.js (renderTrack, selectTrack)
+     ============================================================ -->
+
+<div class="page" id="page-track-status">
+  <div class="breadcrumb">Home › <span>Track Status</span></div>
+
+  <div class="two-col" style="margin-bottom:20px;">
+
+    <!-- ── Left: Request List ── -->
+    <div class="card">
+      <div class="card-header"><h3>Select Request</h3></div>
+      <div style="padding:14px 18px;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+
+          <!-- Request items — clicking calls selectTrack() in track-status.js -->
+          <div onclick="selectTrack(this,'#SA-2024')" class="track-req-item"
+            style="padding:12px 14px; border-radius:8px; border:2px solid var(--blue);
+                   cursor:pointer; background:rgba(37,99,235,0.04);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:13.5px;">#SA-2024 — Hackathon</strong>
+              <span class="badge approved">Approved</span>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">Dec 10–12, 2024</div>
+          </div>
+
+          <div onclick="selectTrack(this,'#SA-2025')" class="track-req-item"
+            style="padding:12px 14px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:13.5px;">#SA-2025 — Sports Meet</strong>
+              <span class="badge hod-pending">In Progress</span>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">Dec 18–19, 2024</div>
+          </div>
+
+          <div onclick="selectTrack(this,'#SA-2026')" class="track-req-item"
+            style="padding:12px 14px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:13.5px;">#SA-2026 — Medical</strong>
+              <span class="badge uploaded">Proof Uploaded</span>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">Jan 5, 2025</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right: Timeline for selected request ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Workflow Progress — <span id="trackReqId">#SA-2024</span></h3>
+      </div>
+      <div style="padding:20px;">
+        <!-- Workflow circles — rendered by renderTrack() in track-status.js -->
+        <div class="workflow-steps" id="workflowViz"></div>
+        <!-- Detailed timeline — rendered by renderTrack() -->
+        <div class="timeline mt-16" id="trackTimeline"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── All Requests Overview Table ── -->
+  <div class="card">
+    <div class="card-header"><h3>All Requests — Overview</h3></div>
+    <div class="card-body">
+      <table>
+        <thead>
+          <tr>
+            <th>REQ ID</th><th>DATES</th><th>REASON</th><th>SUBJECTS</th>
+            <th>MENTOR</th><th>HOD</th><th>PROOF</th><th>ATTENDANCE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>#SA-2024</strong></td><td>Dec 10–12</td><td>Hackathon</td><td>4</td>
+            <td><span class="badge approved">Approved</span></td>
+            <td><span class="badge approved">Approved</span></td>
+            <td><span class="badge uploaded">Uploaded</span></td>
+            <td><span class="badge hod-pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2025</strong></td><td>Dec 18–19</td><td>Sports Meet</td><td>3</td>
+            <td><span class="badge approved">Approved</span></td>
+            <td><span class="badge pending">Pending</span></td>
+            <td><span class="badge pending">—</span></td>
+            <td><span class="badge pending">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>#SA-2026</strong></td><td>Jan 5</td><td>Medical</td><td>2</td>
+            <td><span class="badge pending">Pending</span></td>
+            <td><span class="badge pending">—</span></td>
+            <td><span class="badge pending">—</span></td>
+            <td><span class="badge pending">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
