@@ -21,7 +21,7 @@
 define('MAIL_HOST',     'smtp.gmail.com');
 define('MAIL_PORT',     587);
 define('MAIL_USERNAME', 'rikishapbl@gmail.com');     // change this
-define('MAIL_PASSWORD', 'reycgjnpeurutodc');   // change this (Gmail App Password, no spaces)
+define('MAIL_PASSWORD', 'your-app-password');   // change this (Gmail App Password, no spaces)
 define('MAIL_FROM_NAME','SmartAttend Portal');
 
 // ============================================================
